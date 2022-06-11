@@ -15,6 +15,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var etEmails:TextInputEditText
     lateinit var btnLogin:Button
     lateinit var tvSignUp:TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -26,6 +27,8 @@ class LoginActivity : AppCompatActivity() {
         tvSignUp=findViewById(R.id.tvSignUp)
 
         btnLogin.setOnClickListener {
+           val intent=Intent(this,HomeActivity::class.java)
+            startActivity(intent)
             verify()
         }
         tvSignUp.setOnClickListener {
@@ -36,11 +39,17 @@ class LoginActivity : AppCompatActivity() {
     fun verify(){
         var mail=etEmails.text.toString()
         var passcode=etPassword.text.toString()
+        var error=false
         if (mail.isBlank()){
             tilEmail.error="Error"
         }
         if (passcode.isBlank()){
             tilPassword.error="Error"
         }
+        if (!error){
+            startActivity(Intent(this,HomeActivity::class.java))
+            finish()
+        }
     }
+
 }
