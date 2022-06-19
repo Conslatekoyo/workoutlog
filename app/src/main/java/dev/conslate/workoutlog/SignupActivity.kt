@@ -8,65 +8,43 @@ import android.widget.EditText
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dev.conslate.workoutlog.databinding.ActivitySignupBinding
 
 class SignupActivity : AppCompatActivity() {
-    lateinit var tilFirst:TextInputLayout
-    lateinit var tilLast: TextInputLayout
-    lateinit var tilmail: TextInputLayout
-    lateinit var tilPass: TextInputLayout
-    lateinit var tilconfirm: TextInputLayout
-    lateinit var btnWakilisha:Button
-    lateinit var etFirst:TextInputEditText
-    lateinit var etLast:TextInputEditText
-    lateinit var etEmails:TextInputEditText
-    lateinit var etPasswords:TextInputEditText
-    lateinit var etGmail:TextInputEditText
-    lateinit var tvLog: TextView
+    lateinit var binding: ActivitySignupBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
-        tilFirst=findViewById(R.id.tilFirst)
-        tilLast=findViewById(R.id.tilLast)
-        tilmail=findViewById(R.id.tilmail)
-        tilPass=findViewById(R.id.tilPass)
-        tilconfirm=findViewById(R.id.tilconfirm)
-        etFirst=findViewById(R.id.etFirst)
-        etPasswords=findViewById(R.id.etPasswords)
-        etGmail=findViewById(R.id.etGmail)
-        etLast=findViewById(R.id.etLast)
-        tvLog=findViewById(R.id.tvLog)
-        etEmails=findViewById(R.id.etEmails)
-        btnWakilisha = findViewById(R.id.btnWakilisha)
-
-        btnWakilisha.setOnClickListener {
+        setContentView(binding.root)
+        binding.btnWakilisha.setOnClickListener {
             cons()
         }
-        tvLog.setOnClickListener {
+        binding.tvLog.setOnClickListener {
            val intent=Intent(this,LoginActivity::class.java)
             startActivity(intent)
         }
     }
     fun cons(){
-        var gmail=etGmail.text.toString()
-        var pass=etPasswords.text.toString()
-        var first=etFirst.text.toString()
-        var last=etLast.text.toString()
-        var mailer=etEmails.text.toString()
+        var gmail=binding.etGmail.text.toString()
+        var pass=binding.etPasswords.text.toString()
+        var first=binding.etFirst.text.toString()
+        var last=binding.etLast.text.toString()
+        var mailer=binding.etEmails.text.toString()
 
         if (gmail.isBlank()){
-            tilmail.error="Error"
+            binding.tilmail.error="Error"
         }
         if (pass.isBlank()){
-            tilPass.error="Error"
+            binding.tilPass.error="Error"
         }
         if (first.isBlank()){
-            tilFirst.error="Error"
+            binding.tilFirst.error="Error"
         }
         if (last.isBlank()){
-            tilLast.error="Error"
+            binding.tilLast.error="Error"
         }
         if (mailer.isBlank()){
-            tilconfirm.error="Error"
+            binding.tilconfirm.error="Error"
         }
     }
 }
