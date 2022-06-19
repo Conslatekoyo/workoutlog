@@ -46,5 +46,4 @@ class SignupActivity : AppCompatActivity() {
         if (mailer.isBlank()){
             binding.tilconfirm.error="Error"
         }
-    }
-}
+}}
