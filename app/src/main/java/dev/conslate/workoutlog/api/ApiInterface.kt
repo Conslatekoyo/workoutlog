@@ -1,9 +1,10 @@
-package dev.conslate.workoutlog.retrofit
+package dev.conslate.workoutlog.api
 import dev.conslate.workoutlog.model.LoginRequest
 import dev.conslate.workoutlog.model.LoginResponse
 import dev.conslate.workoutlog.model.RegisterRequest
 import dev.conslate.workoutlog.model.RegisterResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -12,5 +13,5 @@ interface ApiInterface {
     fun registerUser(@Body registerRequest: RegisterRequest):Call<RegisterResponse>
 
     @POST("/login")
-    fun login(@Body loginRequest: LoginRequest):Call<LoginResponse>
+    suspend fun login(@Body loginRequest: LoginRequest):Response<LoginResponse>
 }

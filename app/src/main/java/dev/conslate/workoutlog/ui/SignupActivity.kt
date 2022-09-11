@@ -5,11 +5,15 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import dev.conslate.workoutlog.databinding.ActivitySignupBinding
 import dev.conslate.workoutlog.model.RegisterRequest
 import dev.conslate.workoutlog.model.RegisterResponse
-import dev.conslate.workoutlog.retrofit.ApiClient
-import dev.conslate.workoutlog.retrofit.ApiInterface
+import dev.conslate.workoutlog.api.ApiClient
+import dev.conslate.workoutlog.api.ApiInterface
+import dev.conslate.workoutlog.model.LoginResponse
+import dev.conslate.workoutlog.viewmodel.UserViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,7 +21,8 @@ import retrofit2.Response
 
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
-
+    lateinit var sharedPrefs: SharedPreferences
+    val userViewModel: UserViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivitySignupBinding.inflate(layoutInflater)
@@ -60,41 +65,31 @@ class SignupActivity : AppCompatActivity() {
 
             if(!error){
                 val  registerRequest=RegisterRequest(first,last , mailer, pass,gmail)
-
-                makeRegistrationRequest(registerRequest)
             }
         }
-    fun makeRegistrationRequest(registerRequest: RegisterRequest){
-        var apiClient=ApiClient.buildApiClient(ApiInterface::class.java)
-        var  request= apiClient.registerUser(registerRequest)
 
-        request.enqueue(object :Callback<RegisterResponse> {
-            override fun onResponse(
-                call: Call<RegisterResponse>,
-                response: Response<RegisterResponse>
-            ) {
-                if (response.isSuccessful){
-                    var message = response.body()?.message
-                    Toast.makeText(baseContext,message,Toast.LENGTH_LONG).show()
-                    //intent to login
-                    startActivity(Intent(baseContext, LoginActivity::class.java))
+    override fun onResume() {
+        super.onResume()
+        userViewModel.registerResponseLiveData .observe(this, Observer { registerResponse->
+            Toast.makeText(baseContext,registerResponse.message,Toast.LENGTH_LONG).show()
+            startActivity(Intent(baseContext,LoginActivity::class.java))
+            finish()
 
+        })
+        userViewModel.registerErrorLiveData.observe(this, Observer { registerError ->
+            Toast.makeText(baseContext, registerError, Toast.LENGTH_LONG).show()
 
-                }else{
-                    val error = response.errorBody()?.string()
-                    Toast.makeText(baseContext,error,Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                Toast.makeText(baseContext,t.message,Toast.LENGTH_LONG).show()
-            }
         })
 
     }
 
 
 }
+
+
+
+
+
 
 
 

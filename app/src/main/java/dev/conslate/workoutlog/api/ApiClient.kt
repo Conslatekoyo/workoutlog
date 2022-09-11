@@ -1,4 +1,4 @@
-package dev.conslate.workoutlog.retrofit
+package dev.conslate.workoutlog.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
